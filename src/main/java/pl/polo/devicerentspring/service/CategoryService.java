@@ -11,11 +11,11 @@ import java.util.Scanner;
 public class CategoryService {
 
     @Autowired
-    Scanner sc;
+    private Scanner sc;
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    Category category;
+    private Category category;
 
     public void addCategory(){
         System.out.println("Podaj nazwę kategorii:");
@@ -29,7 +29,7 @@ public class CategoryService {
 
     public void deleteCategory(){
         System.out.println("Podaj id urządzenia:");
-        Long id = (long) sc.nextInt();
+        Long id = sc.nextLong();
         sc.nextLine();
         Category firstCategory = categoryRepository.findById(id).get();
         categoryRepository.delete(firstCategory);

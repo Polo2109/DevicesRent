@@ -12,16 +12,20 @@ import java.util.Scanner;
 
 @Controller
 public class ApplicationController {
-    @Autowired
+
     private Scanner sc;
-    @Autowired
     private DeviceService deviceService;
-    @Autowired
     private CategoryService categoryService;
-    @Autowired
     private CustomerService customerService;
-    @Autowired
     private RentService rentService;
+
+    public ApplicationController(Scanner sc, DeviceService deviceService, CategoryService categoryService, CustomerService customerService, RentService rentService) {
+        this.sc = sc;
+        this.deviceService = deviceService;
+        this.categoryService = categoryService;
+        this.customerService = customerService;
+        this.rentService = rentService;
+    }
 
     public void loop(){
         Options option;

@@ -6,7 +6,6 @@ import pl.polo.devicerentspring.model.Device;
 import pl.polo.devicerentspring.repository.CategoryRepository;
 import pl.polo.devicerentspring.repository.DeviceRepository;
 
-import javax.transaction.Transactional;
 import java.util.Scanner;
 
 @Service
@@ -20,7 +19,6 @@ public class DeviceService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @Transactional
     public void addDevice(){
         System.out.println("Podaj nazwę urzadzenia:");
         device.setName(sc.nextLine());
@@ -40,7 +38,7 @@ public class DeviceService {
 
     public void deleteDevice(){
         System.out.println("Podaj id urządzenia:");
-        Long id = (long) sc.nextInt();
+        Long id = sc.nextLong();
         sc.nextLine();
         Device firstDevice = deviceRepository.findById(id).get();
         deviceRepository.delete(firstDevice);

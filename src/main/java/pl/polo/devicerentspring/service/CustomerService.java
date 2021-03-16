@@ -34,7 +34,7 @@ public class CustomerService {
 
     public void deleteCustomer(){
         System.out.println("Podaj id klienta:");
-        Long id = (long) sc.nextInt();
+        Long id = sc.nextLong();
         sc.nextLine();
         Customer firstCustomer = customerRepository.findById(id).get();
         customerRepository.delete(firstCustomer);
