@@ -10,7 +10,8 @@ public enum Options {
     DELETE_DEVICE(5, "Usuń urządzenie"),
     DELETE_CATEGORY(6, "Usuń kategorię"),
     DELETE_CLIENT(7, "Usuń klienta"),
-    END(8, "Koniec");
+    FIND_DEVICE(8, "Znajdź urządzenie"),
+    END(9, "Koniec");
 
     private final int option;
     private final String description;

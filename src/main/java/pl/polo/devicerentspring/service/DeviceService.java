@@ -9,6 +9,7 @@ import pl.polo.devicerentspring.repository.CategoryRepository;
 import pl.polo.devicerentspring.repository.DeviceRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -37,11 +38,10 @@ public class DeviceService {
         device.setPrice(sc.nextDouble());
         System.out.println("Podaj ilość(szt) urządzenia:");
         device.setAmount(sc.nextInt());
-        System.out.println("Podaj kategorię(id) urządzenia:");
-        Long categoryId = sc.nextLong();
-        sc.nextLine();
+        System.out.println("Podaj nazwę kategorii:");
+        String categoryName = sc.nextLine();
         try {
-            readAndSetCategory(device, categoryId);
+            readAndSetCategory(device, categoryName);
             deviceRepository.save(device);
             System.out.println("Dodano urzadzenie");
             System.out.println(device.toString());
@@ -50,11 +50,11 @@ public class DeviceService {
         }
     }
 
-    private void readAndSetCategory(Device device, Long categoryId) {
-        Optional<Category> category = categoryRepository.findById(categoryId);
+    private void readAndSetCategory(Device device, String categoryName) {
+        Optional<Category> category = categoryRepository.findFirstByNameIgnoreCase(categoryName);
         category.ifPresentOrElse(device::setCategory,
                 () -> {
-            throw new CategoryNotFoundException("Kategoria o podanym ID nie istnieje"); }
+            throw new CategoryNotFoundException("Kategoria o podanej nazwie nie istnieje"); }
         );
     }
 
@@ -65,5 +65,14 @@ public class DeviceService {
         Optional<Device> deviceToDelete = deviceRepository.findById(id);
         deviceToDelete.ifPresentOrElse(p ->deviceRepository.delete(p),
                 () -> System.out.println("Brak urządzenia o wskazanym ID"));
+    }
+    public void findDevice(){
+        System.out.println("Podaj nazwę urządzenia");
+        String name = sc.nextLine();
+        List<Device> foundedDevices = deviceRepository.findFirstByNameContainingIgnoreCase(name);
+        if(foundedDevices != null){
+            foundedDevices.forEach(p -> System.out.println(p.toString()));
+        }else
+            System.out.println("Brak urządzenia o wskazanej nazwie");
     }
 }

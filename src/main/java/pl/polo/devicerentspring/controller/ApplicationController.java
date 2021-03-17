@@ -55,6 +55,9 @@ public class ApplicationController {
                 case DELETE_CLIENT:
                     customerService.deleteCustomer();
                     break;
+                case FIND_DEVICE:
+                    deviceService.findDevice();
+                    break;
                 case END:
                     endProgram();
                     break;
