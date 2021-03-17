@@ -1,7 +1,5 @@
 package pl.polo.devicerentspring.model;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +8,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "customer")
-@Component
 public class Customer implements Serializable {
     private static final Long serialVersionUID = 1L;
 
@@ -18,14 +15,19 @@ public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
+    @Column (name = "name")
     private String name;
-    @Column
+
+    @Column(name= "surname")
     private String surname;
-    @Column(length = 11)
+
+    @Column(name = "pesel", length = 11)
     private String pesel;
-    @Column(length = 10)
+
+    @Column(name = "idCard", length = 10)
     private String idCard;
+
     @ManyToMany(mappedBy = "customers")
     private List<Device> devices = new ArrayList<>();
 

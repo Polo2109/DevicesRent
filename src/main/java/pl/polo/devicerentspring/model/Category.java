@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "category")
-@Component
 public class Category implements Serializable {
     private static final Long serialVersionUID = 1L;
 
@@ -18,9 +17,13 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name", unique = true)
     private String name;
-    @Column(length = 1024)
+
+    @Column(name = "description", length = 1024)
     private  String description;
+
     @OneToMany(mappedBy = "category")
     private Set<Device> devices = new HashSet<>();
 

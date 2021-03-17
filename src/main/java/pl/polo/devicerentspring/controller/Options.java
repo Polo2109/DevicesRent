@@ -1,5 +1,7 @@
 package pl.polo.devicerentspring.controller;
 
+import pl.polo.devicerentspring.exceptions.InvalidOptionException;
+
 public enum Options {
     ADD_DEVICE(1, "Dodaj urządzenie"),
     ADD_CATEGORY(2, "Dodaj kategorię"),
@@ -26,13 +28,12 @@ public enum Options {
         return description;
     }
 
-    static Options createFromInt(int option) {
-        Options[] values = Options.values();
-        for (Options value : values) {
-            if (value.getOption() == option)
-                return value;
+    static Options createFromInt(int option) throws InvalidOptionException{
+        try {
+            return Options.values()[option - 1];
+        }catch (ArrayIndexOutOfBoundsException e) {
+            throw new InvalidOptionException("Brak opcji o id " + option);
         }
-        return null;
     }
 }
 

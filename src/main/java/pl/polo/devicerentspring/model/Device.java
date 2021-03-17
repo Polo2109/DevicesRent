@@ -10,7 +10,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "device")
-@Component
 public class Device implements Serializable {
     private static final Long serialVersionUID = 1L;
 
@@ -18,14 +17,23 @@ public class Device implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
     private String name;
-    @Column(length = 2048)
+
+    @Column(name = "description", length = 2048)
     private String description;
+
+    @Column(name = "amount")
     private int amount;
+
+    @Column(name = "price")
     private double price;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
     private Category category;
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "device_customers",
             joinColumns = {@JoinColumn(name = "device_id", referencedColumnName = "id")},

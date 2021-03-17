@@ -2,6 +2,7 @@ package pl.polo.devicerentspring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import pl.polo.devicerentspring.exceptions.InvalidOptionException;
 import pl.polo.devicerentspring.service.CategoryService;
 import pl.polo.devicerentspring.service.CustomerService;
 import pl.polo.devicerentspring.service.DeviceService;
@@ -32,7 +33,6 @@ public class ApplicationController {
         do {
             printOptions();
             option = getOption();
-            sc.nextLine();
             switch (option){
                 case ADD_DEVICE:
                     deviceService.addDevice();
@@ -44,7 +44,7 @@ public class ApplicationController {
                     customerService.addCustomer();
                     break;
                 case RENT_DEVICE:
-                    rentService.rentDevice();
+                    rentService.rentDeviceToCustomer();
                     break;
                 case DELETE_DEVICE:
                     deviceService.deleteDevice();
@@ -55,9 +55,17 @@ public class ApplicationController {
                 case DELETE_CLIENT:
                     customerService.deleteCustomer();
                     break;
+                case END:
+                    endProgram();
+                    break;
             }
 
         }while (option != Options.END);
+    }
+
+    private void endProgram() {
+        sc.close();
+        System.out.println("Bye bye!");
     }
 
     private void printOptions(){
@@ -72,19 +80,24 @@ public class ApplicationController {
         Options option = null;
         while (!optionOK){
             try{
-                option = Options.createFromInt(sc.nextInt());
-                if(option == null)
-                    System.out.println("Nie ma opcji z takim ID");
-                else
-                    optionOK = true;
-            }catch (InputMismatchException ignored){
+                option = Options.createFromInt(readNumber());
+                optionOK = true;
+            }catch (InputMismatchException e){
                 System.out.println("Wprowadzono wartość, która nie jest liczbą, podaj ponownie");
+            }catch (InvalidOptionException e){
+                System.out.println(e.getMessage());
             }
         }
         return option;
     }
 
-
+    private int readNumber() {
+        try{
+            return sc.nextInt();
+        }finally {
+            sc.nextLine();
+        }
+    }
 
 
 }

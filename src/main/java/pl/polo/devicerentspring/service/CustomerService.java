@@ -1,24 +1,29 @@
 package pl.polo.devicerentspring.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.polo.devicerentspring.model.Category;
 import pl.polo.devicerentspring.model.Customer;
-import pl.polo.devicerentspring.repository.CategoryRepository;
+import pl.polo.devicerentspring.model.Device;
 import pl.polo.devicerentspring.repository.CustomerRepository;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 @Service
 public class CustomerService {
-    @Autowired
+
     Scanner sc;
-    @Autowired
     private CustomerRepository customerRepository;
+
     @Autowired
-    Customer customer;
+    public CustomerService(Scanner sc, CustomerRepository customerRepository) {
+        this.sc = sc;
+        this.customerRepository = customerRepository;
+    }
 
     public void addCustomer(){
+        Customer customer = new Customer();
         System.out.println("Podaj imię klienta:");
         customer.setName(sc.nextLine());
         System.out.println("Podaj nazwisko klienta:");
@@ -36,8 +41,8 @@ public class CustomerService {
         System.out.println("Podaj id klienta:");
         Long id = sc.nextLong();
         sc.nextLine();
-        Customer firstCustomer = customerRepository.findById(id).get();
-        customerRepository.delete(firstCustomer);
-        System.out.println("Usunięto klienta o ID " + id);
+        Optional<Customer> customerToDelete = customerRepository.findById(id);
+        customerToDelete.ifPresentOrElse(p ->customerRepository.delete(p),
+                () -> System.out.println("Brak klienta o wskazanym ID"));
     }
 }

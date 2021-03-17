@@ -3,21 +3,26 @@ package pl.polo.devicerentspring.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.polo.devicerentspring.model.Category;
+import pl.polo.devicerentspring.model.Device;
 import pl.polo.devicerentspring.repository.CategoryRepository;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 @Service
 public class CategoryService {
 
-    @Autowired
     private Scanner sc;
-    @Autowired
     private CategoryRepository categoryRepository;
+
     @Autowired
-    private Category category;
+    public CategoryService(Scanner sc, CategoryRepository categoryRepository) {
+        this.sc = sc;
+        this.categoryRepository = categoryRepository;
+    }
 
     public void addCategory(){
+        Category category = new Category();
         System.out.println("Podaj nazwę kategorii:");
         category.setName(sc.nextLine());
         System.out.println("Podaj opis kategorii:");
@@ -31,9 +36,9 @@ public class CategoryService {
         System.out.println("Podaj id urządzenia:");
         Long id = sc.nextLong();
         sc.nextLine();
-        Category firstCategory = categoryRepository.findById(id).get();
-        categoryRepository.delete(firstCategory);
-        System.out.println("Usunięto urządzenie o ID " + id);
+        Optional<Category> categoryToDelete = categoryRepository.findById(id);
+        categoryToDelete.ifPresentOrElse(p ->categoryRepository.delete(p),
+                () -> System.out.println("Brak kategorii o wskazanym ID"));
     }
 
 }
