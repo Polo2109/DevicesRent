@@ -38,6 +38,7 @@ public class DeviceService {
         device.setPrice(sc.nextDouble());
         System.out.println("Podaj ilość(szt) urządzenia:");
         device.setAmount(sc.nextInt());
+        sc.nextLine();
         System.out.println("Podaj nazwę kategorii:");
         String categoryName = sc.nextLine();
         try {
